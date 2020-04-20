@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:obdsapp/src/doctor.dart';
 import './src/login.dart';
 import 'package:mysql1/mysql1.dart';
 
@@ -21,11 +22,11 @@ ConnectionSettings sql_cred;
 void main(){
   runApp(
       MaterialApp(
-      title: 'Protsahan India Foundation',
+      title: 'Organ and Blood Dontaion System',
       theme: ThemeData(
-        primaryColor: Colors.orange,
+        primaryColor: Colors.green,
       ),
-      home: (LoginPage()),
+      home: (Doctor()),
     )
   );
 }

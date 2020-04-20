@@ -128,7 +128,7 @@ class LoginPageState extends State<LoginPage>{
                 borderRadius: BorderRadius.circular(30),
                 shadowColor: Colors.orange,
                 elevation: 5.0,
-                color: Colors.orange,
+                color: Colors.green,
                 child: MaterialButton(
                   minWidth: 200,
                   height: 42,
