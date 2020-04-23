@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'mysql1.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -46,7 +48,50 @@ class Organ {
 }
 class _SignupPageState extends State<SignupPage> {
 
+  String alertTitle="Error",alertContent="";
 
+  createAlertDialog(BuildContext context)
+  {
+    print(alertTitle);
+    return showDialog(context: context ,builder:(context){
+    return AlertDialog(
+      title: Text(alertTitle,     style: TextStyle(fontFamily: 'Montserrat'),),
+      content: Text(alertContent,     style: TextStyle(fontFamily: 'Montserrat'),),
+      actions: <Widget>[MaterialButton (
+                                        elevation:5,
+                                        child :Text("Go Back",style: TextStyle(fontFamily: 'Montserrat')),  
+                                        onPressed: (){
+                                          Navigator.of(context).pop();
+                                          })],
+    );
+
+    });
+
+      }
+      bool isNumeric(String s) {
+          if(s == null) {
+              return false;
+            }
+          return double.parse(s, (e) => null) != null;
+        }
+  
+   var db = new Mysql();
+  
+      void _getCustomer() {
+    db.getConnection().then((conn) {
+      // String sql = 'insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("19","3","A","12312312","123213213","+","231001","Kidney");';
+      // conn.query(sql);
+      // .then((results) {
+      //   for(var row in results){
+      //       print(row);
+      //   }
+      // }); 
+      conn.close();
+    });
+  }
+
+
+  
     List<BloodGroup> _groups = BloodGroup.getgroups();
     List<DropdownMenuItem<BloodGroup>> _dropdownMenuItems;
     List<Organ> _organs = Organ.getorgans();
@@ -132,9 +177,7 @@ class _SignupPageState extends State<SignupPage> {
                     decoration: InputDecoration(
                       hintText: 'Please Enter both First and Last Name',
                         labelText: 'Name',
-                      
                         labelStyle: TextStyle(
-                          
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
                             color: Colors.grey),
@@ -196,7 +239,7 @@ class _SignupPageState extends State<SignupPage> {
                                 decoration: InputDecoration( 
                                   contentPadding: EdgeInsets.all(10),
                                   labelText: 'Phone Number',
-                                  hintText: 'XXX-XXX-XXXX',
+                                  hintText: 'XXXXXXXXXX',
                                   labelStyle: TextStyle(
                                     fontFamily: 'Montserrat',
                                     fontWeight: FontWeight.bold,
@@ -296,6 +339,7 @@ class _SignupPageState extends State<SignupPage> {
                         elevation: 7.0,
                         // child: GestureDetector(
                           onPressed: () {
+                            // _getCustomer();
                             print("hello");
                             setState(() {
                               Name=NameController.text;
@@ -303,7 +347,116 @@ class _SignupPageState extends State<SignupPage> {
                               Address=AddressController.text;
                               Pincode=PinController.text;
                               Phone=PhoneController.text;
-                              print(Name); 
+                              if(Name.length==0)
+                              {    
+                                                                print("hello14");
+
+                                alertContent="Name Field cannot be Empty";
+                                createAlertDialog(context);
+                              }
+                              else if(Age.length==0)
+                              {
+                                                                print("hello13");
+
+                                alertContent="Age Field cannot be Empty";
+                                createAlertDialog(context);
+                              }
+                              else if(!isNumeric(Age))
+                              {
+                                                                print("hello12");
+
+                                alertContent="Enter your age in Numeric form like \'20\'";
+                                createAlertDialog(context);
+                              }
+                              else if(Address.length==0)
+                              {
+                                                                print("hello10");
+
+                                alertContent="Address Field cannot be Empty";
+                                createAlertDialog(context);
+
+                              }
+
+                              else if(Pincode.length==0)
+                              {
+                                                                print("hello9");
+
+                                alertContent="Pincode Field cannot be Empty";
+                                createAlertDialog(context);
+                              }
+                              else if(!isNumeric(Pincode))
+                              {
+                                                                print("hello8");
+
+                                alertContent="Pincode should be Numeric of the form XXXXXX \n e.g: 243122";
+                                createAlertDialog(context);
+                              }
+                              else if(Phone.length==0)
+                              {
+                                alertContent="Phone Field cannot be Empty";
+                                createAlertDialog(context);
+                              }
+                              else if(!isNumeric(Phone))
+                              {
+                                                                print("hello5");
+
+                                alertContent="PHone number should contain digits onlu.";
+                                createAlertDialog(context);
+                              }
+                              else if(_selectedBloodGroup==null)
+                              {
+                                print("hello3");
+
+                                alertContent="Please Select a Blood Group \n Choose \"Not Sure\" if you are not sure";
+                                createAlertDialog(context);
+                              }
+                              else if(isNumeric(Age))
+                              {
+                                print("hello11");
+                                var age=int.parse(Age);
+                                if(age<17)
+                                {
+                                  alertContent="Minimum age can be 18";
+                                  createAlertDialog(context);
+                                }
+                              }
+                              else if(isNumeric(Pincode))
+                              {
+                                if(Pincode.length!=6)
+                                {
+                                                                  print("hello7");
+
+                                alertContent="Not a valid Pincode";
+                                createAlertDialog(context);
+                                }
+                                else
+                                {
+                                  var pin=int.parse(Pincode);
+                                  if(pin>929999 ||pin <110000)
+                                  {
+                                                                    print("hello6");
+
+                                    alertContent="NOt a valid Pincode";
+                                    createAlertDialog(context);
+                                  }
+                                }
+                              }
+
+                              else if(isNumeric(Phone))
+                              {
+                                if(Phone.length!=10)
+                                {
+                                                                  print("hello4");
+
+                                alertContent="Please Enter a valid mobile number";
+                                createAlertDialog(context);
+                                }
+                              }
+
+
+                              else{
+                                print("hello2");
+                             print(Name); 
                               print(Age); 
                               print(Address); 
                               print(Pincode); 
@@ -321,6 +474,8 @@ class _SignupPageState extends State<SignupPage> {
                               BloodDonorCheckBox=false;
                               _selectedBloodGroup=null;
                               _selectedOrgan=null;
+ 
+                              }
                             });
                           },
                           child: Center(
