@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'mysql1.dart';
 
 class SignupPage extends StatefulWidget {
@@ -74,21 +73,132 @@ class _SignupPageState extends State<SignupPage> {
             }
           return double.parse(s, (e) => null) != null;
         }
+        int entrylength=0;
+        String lastentry;
   
-   var db = new Mysql();
-  
-      void _getCustomer() {
-    db.getConnection().then((conn) {
-      // String sql = 'insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("19","3","A","12312312","123213213","+","231001","Kidney");';
-      // conn.query(sql);
-      // .then((results) {
-      //   for(var row in results){
-      //       print(row);
-      //   }
-      // }); 
-      conn.close();
-    });
-  }
+      void insertDonor()  
+      {
+        List<int> donlist=[];
+        int id=1;
+        var db = new Mysql();
+        
+        db.getConnection().then((conn)  async{
+          String sql = 'Select DON_id from New_Donor;';
+          // print(conn.toString());
+          // String id="13";
+
+          // conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
+            await Future.delayed(Duration(seconds: 2),()
+            {
+              print("await1 start");
+              conn.query(sql).then((results) {
+            entrylength=results.length;
+            if(entrylength!=0)
+            {
+              for(var row in results)
+              {
+                donlist.add(int.parse(row[0].toString().substring(3)));
+              }
+              while(id<1000)
+              {
+                if(!donlist.contains(id))
+                break;
+                id++;
+              }
+            }
+            print("await2 ends");
+
+          });
+          });
+          await Future.delayed(Duration(seconds: 2),()
+          {
+                          print("await2 start");
+
+          if(entrylength==0)
+              {
+                String id="ND_1";
+                print("In if");
+                 conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
+              }
+          else
+              {
+                print("In else");
+                String DON_id="ND_";
+                // var a=int.parse(lastentry.substring(3));
+                DON_id+=(id).toString();
+                // print(id);
+                print(DON_id);
+                conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$DON_id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
+                print("inserted");
+              }
+                        print("await2 ends");
+
+          });
+          conn.close();
+        });
+      }  
+      void insertBloodDonor()
+      {
+        List<int> donlist=[];
+        int id=1;
+        var db = new Mysql();
+        
+        db.getConnection().then((conn)  async{
+          String sql = 'Select BLD_id from New_Blood_Donor;';
+          // print(conn.toString());
+          // String id="13";
+
+          // conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
+            await Future.delayed(Duration(seconds: 2),()
+            {
+              print("await1 start");
+              conn.query(sql).then((results) {
+            entrylength=results.length;
+            if(entrylength!=0)
+            {
+              for(var row in results)
+              {
+                donlist.add(int.parse(row[0].toString().substring(4)));
+              }
+              while(id<1000)
+              {
+                if(!donlist.contains(id))
+                break;
+                id++;
+              }
+            }
+            print("await2 ends");
+
+          });
+          });
+          await Future.delayed(Duration(seconds: 2),()
+          {
+                          print("await2 start");
+
+          if(entrylength==0)
+              {
+                String id="NBD_1";
+                print("In if");
+                 conn.query('insert into New_Blood_Donor(Age,BLD_id,Name,Address,Contact,Blood_Group,Pincode) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode")');
+              }
+          else
+              {
+                print("In else");
+                String DON_id="NBD_";
+                // var a=int.parse(lastentry.substring(3));
+                DON_id+=(id).toString();
+                // print(id);
+                print(DON_id);
+                conn.query('insert into New_Blood_Donor(Age,BLD_id,Name,Address,Contact,Blood_Group,Pincode) values ("$Age","$DON_id","$Name","$Address","$Phone","$Blood_group","$Pincode")');
+                print("inserted");
+              }
+                        print("await2 ends");
+
+          });
+          conn.close();
+        });
+
+      }  
 
 
   
@@ -106,7 +216,7 @@ class _SignupPageState extends State<SignupPage> {
     final AddressController=new TextEditingController();
     final PinController=new TextEditingController();
     final PhoneController=new TextEditingController();
-    String Name,Age,Address,Pincode,Phone;
+    String Name,Age,Address,Pincode,Phone,Blood_group,Select_Organ;
 
   List<DropdownMenuItem<BloodGroup>> buildDropdownMenuItems(List groups) {
     List<DropdownMenuItem<BloodGroup>> items = List();
@@ -339,7 +449,7 @@ class _SignupPageState extends State<SignupPage> {
                         elevation: 7.0,
                         // child: GestureDetector(
                           onPressed: () {
-                            // _getCustomer();
+                            // insertdonor();
                             print("hello");
                             setState(() {
                               Name=NameController.text;
@@ -400,7 +510,7 @@ class _SignupPageState extends State<SignupPage> {
                               {
                                                                 print("hello5");
 
-                                alertContent="PHone number should contain digits onlu.";
+                                alertContent="PHone number should contain digits only.";
                                 createAlertDialog(context);
                               }
                               else if(_selectedBloodGroup==null)
@@ -410,76 +520,105 @@ class _SignupPageState extends State<SignupPage> {
                                 alertContent="Please Select a Blood Group \n Choose \"Not Sure\" if you are not sure";
                                 createAlertDialog(context);
                               }
-                              else if(isNumeric(Age))
+                              else if(!OrganDonorCheckBox && !BloodDonorCheckBox)
                               {
-                                print("hello11");
-                                var age=int.parse(Age);
-                                if(age<17)
-                                {
-                                  alertContent="Minimum age can be 18";
-                                  createAlertDialog(context);
-                                }
-                              }
-                              else if(isNumeric(Pincode))
-                              {
-                                if(Pincode.length!=6)
-                                {
-                                                                  print("hello7");
+                                print("hello31");
 
-                                alertContent="Not a valid Pincode";
+                                alertContent="Choose atleast one of the Organ Donor and Blood Donor checkboxes.";
                                 createAlertDialog(context);
-                                }
-                                else
-                                {
+                              }
+                              else if(OrganDonorCheckBox && _selectedOrgan==null)
+                              {
+                                alertContent="Please Select the organ you want to donate";
+                                createAlertDialog(context);
+                              }
+                              else if(OrganDonorCheckBox && _selectedOrgan.group=="None")
+                              {
+                                alertContent="Selected organ cannot be none";
+                                createAlertDialog(context);
+                              }
+                              else{
+                                  var age=int.parse(Age);
                                   var pin=int.parse(Pincode);
-                                  if(pin>929999 ||pin <110000)
+                                  print(pin);
+                                  if(age<17)
                                   {
-                                                                    print("hello6");
-
+                                    print("helloage");
+                                    alertContent="Minimum age can be 18";
+                                    createAlertDialog(context);
+                                  }
+                                  else if(Pincode.length!=6 && !(Pincode.length==7 && Pincode[Pincode.length-1]==" "))
+                                  {
+                                    print("hello7");
+                                    print(Pincode.length);
+                                    print(Pincode);
+                                      alertContent="Not a valid Pincode ";
+                                      createAlertDialog(context);
+                                  }
+                                  else if(pin>929999 ||pin <110000)
+                                  {
+                                    print("hello6");
                                     alertContent="NOt a valid Pincode";
                                     createAlertDialog(context);
                                   }
-                                }
-                              }
-
-                              else if(isNumeric(Phone))
-                              {
-                                if(Phone.length!=10)
-                                {
-                                                                  print("hello4");
-
-                                alertContent="Please Enter a valid mobile number";
-                                createAlertDialog(context);
-                                }
-                              }
-
-
-                              else{
-                                print("hello2");
-                             print(Name); 
-                              print(Age); 
-                              print(Address); 
-                              print(Pincode); 
-                              print(Phone); 
-                              print(OrganDonorCheckBox);
-                              print(BloodDonorCheckBox);
-                              print(_selectedBloodGroup.group);
-                              print(_selectedOrgan.group);
-                              NameController.text="";
-                              AgeController.text="";
-                              AddressController.text="";
-                              PinController.text="";
-                              PhoneController.text="";
-                              OrganDonorCheckBox=false;
-                              BloodDonorCheckBox=false;
-                              _selectedBloodGroup=null;
-                              _selectedOrgan=null;
- 
+                                  else if(Phone.length!=10 && !(Phone.length==11 && Phone[Phone.length-1]==" "))
+                                  {
+                                    print("hello4");
+                                    alertContent="Please Enter a valid mobile number";
+                                    createAlertDialog(context);
+                                  }
+                                  else
+                                  {
+                                    print("hello2");
+                                    print(Name); 
+                                    print(Age); 
+                                    print(Address); 
+                                    print(Pincode); 
+                                    print(Phone); 
+                                    print(OrganDonorCheckBox);
+                                    print(BloodDonorCheckBox);
+                                    Blood_group=_selectedBloodGroup.group;
+                                    if(Blood_group=="Not sure")
+                                    {
+                                      Blood_group="Unknown";
+                                    }
+                                    if(Phone.length==11 && Phone[Phone.length-1]==" ")
+                                    {
+                                      Phone=Phone.substring(0,10);
+                                    }
+                                    if(Pincode.length==7 && Pincode[Pincode.length-1]==" ")
+                                    {
+                                      Pincode=Pincode.substring(0,6);
+                                    }
+                                    if(OrganDonorCheckBox)
+                                    {
+                                      Select_Organ=_selectedOrgan.group;
+                                      insertDonor();
+                                    }
+                                    if(BloodDonorCheckBox)
+                                    {
+                                      insertBloodDonor();
+                                    }
+                                    // print(_selectedBloodGroup.group);
+                                    // print(_selectedOrgan.group);
+                                    NameController.text="";
+                                    AgeController.text="";
+                                    AddressController.text="";
+                                    PinController.text="";
+                                    PhoneController.text="";
+                                    OrganDonorCheckBox=false;
+                                    BloodDonorCheckBox=false;
+                                    _selectedBloodGroup=null;
+                                    _selectedOrgan=null;
+                                  } 
                               }
                             });
                           },
+
+
+
+
                           child: Center(
-                            
                             child: Text(
                               'SIGNUP',
                               style: TextStyle(
