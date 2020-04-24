@@ -30,28 +30,23 @@ class Show_bloodState extends State<Show_blood>
     {
       blood=blood[0]+'negative';
     }
-    int s1=int.parse(pincode);
-    int s2=s1;
-    s1=s1-10;
-    s2=s2+10;
-    String lower=s1.toString();
-    String upper=s2.toString();
+    String lower =pincode[0]+pincode[1]+pincode[2];
+    lower+='%';
     print(blood);
     print(lower);
-    print(upper);
     var conn=await MySqlConnection.connect(sql_cred); 
     try
     {
       String q;
       if(blood.length>0)
       {
-        q='Select Name,Address,Contact from Blood_Bank where '+blood+' > 0 and pincode between ? and ?';
+        q='Select Name,Address,Contact from Blood_Bank where '+blood+' > 0 and pincode like ?';
       }
       else
       {
-        q='Select Name,Address,Contact from Blood_Bank where pincode between ? and ?';
+        q='Select Name,Address,Contact from Blood_Bank where pincode like ?';
       }
-      data=await conn.query(q,[lower,upper]);
+      data=await conn.query(q,[lower]);
       print(data);
     }
     catch(e)

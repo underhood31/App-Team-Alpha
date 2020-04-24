@@ -20,7 +20,6 @@ class BloodGroup
       BloodGroup(6, 'O-'),
       BloodGroup(7, 'AB+'),
       BloodGroup(8, 'AB-'),
-      BloodGroup(9,'Not sure')
 
     ];
   }
