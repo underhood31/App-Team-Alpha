@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:obdsapp/src/d_check_organ.dart';
+import 'package:obdsapp/src/d_orgHist.dart';
+import '../main.dart';
+import 'd_search.dart';
 
 class Doctor extends StatefulWidget{
   @override
@@ -9,7 +14,6 @@ class DoctorState extends State<Doctor>{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -45,23 +49,36 @@ class DoctorState extends State<Doctor>{
                       'Check availability of organs, search organs and mark them for use.'
                     ),
                     trailing: Icon(Icons.more_vert),
-                    isThreeLine: true,
+                    // isThreeLine: true,
+                    onTap:() {
+                    
+                      // print(organList)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CheckOrgans()),
+                      );
+                    } ,
                   ),
                 ),
-                Card(
-                  child: ListTile(
-                    leading: Icon(Icons.border_all,size: 48,),
-                    title: Text('All Organs'),
-                    subtitle: Text(
-                      'See the list of all the organs available in the organ bank.'
-                    ),
-                    trailing: Icon(Icons.more_vert),
-                    isThreeLine: true,
-                  ),
-                ),
+                
                  Card(
                   child: ListTile(
                     leading: Icon(Icons.search,size: 48,),
+                    onTap: ()  {
+                      //   try{
+                      //   var conn = await MySqlConnection.connect(sql_cred);
+                      //   // var query="SELECT * FROM ProtData where Roll_no=\"$_id\";";
+                      //   var results = conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values (?,?,?,?,?,?,?,?)',["23","ND_3","Name","Address","9012599079","Unknown","243122","Lung"]);
+                      //   await conn.close();
+                      //   print(results);
+                      // }catch(e){
+                      //   print("functions.dart: Exception thrown ${e.toString()} ");
+                      // }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchOrgans()),
+                      );
+                    },
                     title: Text('Search Compatibility of the Organs'),
                     subtitle: Text(
                       'Search for compatible organs and mark for use.'
@@ -72,6 +89,12 @@ class DoctorState extends State<Doctor>{
                 ),
                 Card(
                   child: ListTile(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => OrganHistory()),
+                      );
+                    },
                     leading: Icon(Icons.history,size: 48,),
                     title: Text('Organ History'),
                     subtitle: Text(

@@ -17,9 +17,22 @@ class Field{
   }  
 }
 
-ConnectionSettings sql_cred;
-
+ConnectionSettings sql_cred=new ConnectionSettings(
+      host: 'remotemysql.com',
+      port: 3306,
+      user: 'ED3QOAIOQK',
+      password: 'yz51KaPFRg',
+      db: 'ED3QOAIOQK'
+    );
+List<String> organList= new List<String>(6);
 void main(){
+  organList[0]="Cornea";
+  organList[1]="Heart";
+  organList[2]="Kidney";
+  organList[3]="Liver";
+  organList[4]="Lung";
+  organList[5]="Pancreas";
+  print(organList);
   runApp(
       MaterialApp(
       title: 'Organ and Blood Dontaion System',
