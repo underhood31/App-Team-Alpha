@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mysql1/mysql1.dart';
+import 'package:obdsapp/src/Blood_available.dart';
 import 'package:obdsapp/src/d_check_organ.dart';
 import 'package:obdsapp/src/d_orgHist.dart';
 import '../main.dart';
+import 'Near_bloodbank.dart';
 import 'd_search.dart';
 
 class Doctor extends StatefulWidget{
@@ -17,12 +19,14 @@ class DoctorState extends State<Doctor>{
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        
         appBar: AppBar(
+          leading: Text(''),
           actions: <Widget>[
            IconButton(
              icon: Icon(Icons.exit_to_app),
              onPressed: (){
-               print("pressed");
+                Navigator.pushReplacementNamed(context, "/logout");
              },
            )
 
@@ -34,7 +38,8 @@ class DoctorState extends State<Doctor>{
               Tab(icon: Icon(Icons.opacity), text: "Blood",),
             ],
           ),
-          title: Text("Logged In as a Doctor"),
+          title: Text("Logged In as a Doctor", textAlign: TextAlign.center,),
+          centerTitle: true,
         ),
         body: TabBarView(
           children: <Widget>[
@@ -121,7 +126,11 @@ class DoctorState extends State<Doctor>{
             ListView(
               children: <Widget>[
                 Card(
+                  
                   child: ListTile(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Blood_avialable()),);
+                    },
                     leading: Icon(Icons.help,size: 48,),
                     title: Text('Available blood groups'),
                     subtitle: Text(
@@ -134,6 +143,9 @@ class DoctorState extends State<Doctor>{
                 Card(
                   child: ListTile(
                     leading: Icon(Icons.map,size: 48,),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Near_bloodbank()),);
+                    },
                     title: Text('Blood Banks'),
                     subtitle: Text(
                       'Find the nearest Blood Bank for donating and recieving blood based upon the PIN code of your area.'

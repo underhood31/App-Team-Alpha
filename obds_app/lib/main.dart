@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:obdsapp/src/Cornea.dart';
+import 'package:obdsapp/src/Eligible.dart';
+import 'package:obdsapp/src/Pending.dart';
+import 'package:obdsapp/src/Shortage.dart';
+import 'package:obdsapp/src/TEMP.dart';
 import 'package:obdsapp/src/doctor.dart';
 import './src/login.dart';
 import 'package:mysql1/mysql1.dart';
@@ -39,7 +44,14 @@ void main(){
       theme: ThemeData(
         primaryColor: Colors.green,
       ),
-      home: (Doctor()),
+      home: (Selection()),
+      routes: {
+        "/logout": (_) => Selection(), 
+        '/shortage':(context) => shortage(),
+      '/eligible':(context) => eligible_donors(),
+      '/pending':(context) => pending_checkup(),
+      '/cornea':(context) => cornea(),
+      },
     )
   );
 }
