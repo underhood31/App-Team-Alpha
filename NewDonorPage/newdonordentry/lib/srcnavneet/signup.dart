@@ -57,7 +57,8 @@ class _SignupPageState extends State<SignupPage> {
       title: Text(alertTitle,     style: TextStyle(fontFamily: 'Montserrat'),),
       content: Text(alertContent,     style: TextStyle(fontFamily: 'Montserrat'),),
       actions: <Widget>[MaterialButton (
-                                        elevation:5,
+                                        color: Colors.green,
+                                        elevation:15,
                                         child :Text("Go Back",style: TextStyle(fontFamily: 'Montserrat')),  
                                         onPressed: (){
                                           Navigator.of(context).pop();

@@ -4,6 +4,7 @@ import './Personal.dart';
 import './Near_bloodbank.dart';
 import './Blood_available.dart';
 import './All_organisations.dart';
+import './Chances.dart';
 class Patient extends StatefulWidget
 {
   var id;
@@ -80,6 +81,19 @@ class PatientState extends State<Patient>
                     ),
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Personal(id)),);
+                    },
+                    isThreeLine: true,
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    leading: Icon(Icons.star,size: 48,),
+                    title: Text('Viewing Probablity of Matching'),
+                    subtitle: Text(
+                      'View the Chances of getting a match'
+                    ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Chances(id)),);
                     },
                     isThreeLine: true,
                   ),

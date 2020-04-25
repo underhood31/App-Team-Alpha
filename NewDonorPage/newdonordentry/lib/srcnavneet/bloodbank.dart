@@ -1,22 +1,68 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'BloodBankUnits.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-class BloodBankPage extends StatefulWidget {
+import 'mysql1.dart';
+import 'incrementBloodBank.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+class BloodBankPage extends StatefulWidget {
+  static String Bloodbankid;
+  static String getBBid()
+  {
+    return Bloodbankid;
+  }
+  static void setBBid(String id)
+  {
+    Bloodbankid=id;
+  }
   @override
   _BloodBankPageState createState() => _BloodBankPageState();
+  
   // MyTabsState createState() => new MyTabsState();
 }
 
 class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProviderStateMixin {
- static int bpositive=20;
- TabController controller;
+  static List bloodgroups;
+  static int Bpositive=0,Bnegative=0,Apositive=0,Anegative=0,Opositive=0,Onegative=0,ABpositive=0,ABnegative=0;
+  static String BloodBankid="BBANK_999";
+  static Widget initial=SpinKitChasingDots(
+    color: Colors.green,
+    size: 50.0,
+  );
+  static Widget pageContent=initial;
+  static String alertTitle,alertContent;
+  void UpdateValues() async
+  {
+    var row;
+    var db = new Mysql();
+      db.getConnection().then((conn)  async{
+        String sql = "select Bpositive,Bnegative,Apositive,Anegative,ABpositive,ABnegative,Opositive,Onegative from Blood_Bank where BANK_id=\"$BloodBankid\";"; 
+        conn.query(sql).then((results)
+        {
+          row= results.elementAt(0);        
+          Bpositive=row[0];
+          Bnegative=row[1];
+          Apositive=row[2];
+          Anegative=row[3];
+          ABpositive=row[4];
+          ABnegative=row[5];
+          Opositive=row[6];
+          Onegative=row[7];
+        });
+      conn.close();
+  }); 
+  bloodgroups=["    B+ \n $Bpositive units","    B- \n $Bnegative units","    A+ \n $Apositive units","    A- \n $Anegative units","    AB+ \n $ABpositive units","    AB- \n $ABnegative units","    O+ \n $Opositive units","    O- \n $Onegative units"];
+  print(bloodgroups);
+  }
 
+
+   TabController controller;
   @override
-  void initState() {
+  void initState()   {
+    //  Future.delayed(Duration(seconds: 3));
     super.initState();
     controller = new TabController(vsync:this,length: 2);
+    this.UpdateValues();
   }
 
   @override
@@ -24,16 +70,15 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
     controller.dispose();
     super.dispose();
   }
-  List<String> items = ["1", "2", "3", "4", "5", "6", "7", "8"];
   RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: true);
 
   void _onRefresh() async{
     // monitor network fetch
+    await Future.delayed(Duration(seconds: 2));
 
-    await Future.delayed(Duration(milliseconds: 1000),(){
-      items.shuffle();
-      new First();
+    setState(() {
+      UpdateValues();
     });
 
     // if failed,use refreshFailed()
@@ -76,21 +121,6 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
         footer: CustomFooter(
           builder: (BuildContext context,LoadStatus mode){
             Widget body ;
-            if(mode==LoadStatus.idle){
-              body =  Text("pull up load");
-            }
-            else if(mode==LoadStatus.loading){
-              body =  CupertinoActivityIndicator();
-            }
-            else if(mode == LoadStatus.failed){
-              body = Text("Load Failed!Click retry!");
-            }
-            else if(mode == LoadStatus.canLoading){
-                body = Text("release to load more");
-            }
-            else{
-              body = Text("No more Data");
-            }
             return Container(
               height: 55.0,
               child: Center(child:body),
@@ -99,22 +129,104 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
         ),
         controller: _refreshController,
         onRefresh: _onRefresh,
-        // onLoading: _onLoading,
-        // child: ListView.builder(
-        //   itemBuilder: (c, i) => Card(child: Center(child: Text(items[i]))),
-        //   itemExtent: 100.0,
-        //   itemCount: items.length,
-        // ),
-        
+        child: GridView.builder(        
+        padding: EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        itemCount: bloodgroups==null?0:bloodgroups.length,
+        itemBuilder:(context ,int index )=> Card (
+            shape:new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0)
+            ),
+            elevation: 30,
+            child: new Container(
+              child: Align(alignment: Alignment.center,
+              child: new Text(bloodgroups[index],style : TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.black,
+                            fontSize:30)),
+              
+              )
+            )
+          ),
+      )
+ 
+              
       ),
+      // Tab2 ie, Other Utilities
+      ListView(
 
-            new First(),
-            // new First()
-            // Tab2 ie, Other Utilities
+        children: <Widget>[
+          Card (
+            
+            shape:new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0)
+            ),
+            
+            elevation: 30,
+            child: new ListTile(
+              title: new Text("\n\tIncrement Units of blood\n",style : TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.black,
+                            fontSize:21)),             
+              onTap: (){
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => new IncrementBB()),
+                      );
+                  // Navigator.of(context).pushNamed('/Incrementpage');
+
+              },
+            )
+          ),
+          Card (
+            
+            shape:new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0)
+            ),
+            
+            elevation: 30,
+            child: new ListTile(
+              title: new Text("\n\tDecrement Units of blood\n",style : TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.black,
+                            fontSize:21)),             
+              onTap: (){},
+            )
+          ),
+          Card (
+            
+            
+            shape:new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0)
+            ),
+            
+            elevation: 30,
+            child: new ListTile(
+              title: new Text("\n\tTransfer blood units\n",style : TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.black,
+                            fontSize:21)),             
+              onTap: (){ },
+            )
+          ),
+          Card (
+            shape:new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(20.0)
+            ),            
+            elevation: 30,
+            child: new ListTile(
+              title: new Text("\n\tContact other Banks\n",style : TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Colors.black,
+                            fontSize:21)),             
+              onTap: (){},
+            )
+          )
+
+        ]
+      )
               ],
             ),
-
-
         );
         
     }
@@ -249,4 +361,4 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
   //       ),
   //     ),
   //   );
-  // }
+  // }s
