@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'signup.dart';
-import 'bloodbank.dart';
+import 'srcnavneet/signup.dart';
+import 'srcnavneet/bloodbank.dart';
 
 void main() => runApp(new MyApp());
 
@@ -139,8 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Center(
-                              child:
-                                  ImageIcon(AssetImage('assets/facebook.png')),
+                              // child:
+                                  // ImageIcon(AssetImage('assets/facebook.png')),
                             ),
                             SizedBox(width: 10.0),
                             Center(
