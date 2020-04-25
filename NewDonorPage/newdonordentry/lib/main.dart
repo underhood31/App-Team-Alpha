@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'signup.dart';
+import 'bloodbank.dart';
 
 void main() => runApp(new MyApp());
 
@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
-        '/signup': (BuildContext context) => new SignupPage()
+        '/signup': (BuildContext context) => new SignupPage(),
+        '/bloodbankpage':(BuildContext context)=>new BloodBankPage()
       },
       home: new MyHomePage(),
     );
@@ -100,13 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(height: 40.0),
                     Container(
                       height: 40.0,
-                      child: Material(
-                        borderRadius: BorderRadius.circular(20.0),
-                        shadowColor: Colors.greenAccent,
+                      child: new RaisedButton(
+                        // borderRadius: BorderRadius.circular(20.0),
+                        // shadowColor: Colors.greenAccent,
                         color: Colors.green,
                         elevation: 7.0,
-                        child: GestureDetector(
-                          onTap: () {},
+                        // child: GestureDetector(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/bloodbankpage');
+
+                          },
                           child: Center(
                             child: Text(
                               'LOGIN',
@@ -116,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontFamily: 'Montserrat'),
                             ),
                           ),
-                        ),
+                        // ),
                       ),
                     ),
                     SizedBox(height: 20.0),
