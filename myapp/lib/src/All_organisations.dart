@@ -43,7 +43,7 @@ class All_organisationState extends State<All_organisation>
   static Widget afterLoad;
   void getData() async{
     var conn=await MySqlConnection.connect(sql_cred); 
-    //try
+    try
     {
       var result=await conn.query('select blood_group from Patient where pat_id= ?',[id]);
       var blood;
@@ -72,10 +72,10 @@ class All_organisationState extends State<All_organisation>
       }
       data=result;
     }
-    //catch(e)
-    //{
-      //print("Exception");
-    //}
+    catch(e)
+    {
+      print("Exception");
+    }
     await conn.close();
     var allFeilds=new List();
     var relevantData=new List();
