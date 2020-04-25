@@ -12,6 +12,27 @@ class Organ_available extends StatefulWidget
 }
 class Organ_availableState extends State<Organ_available>
 {
+  String getList(String b)
+  {
+    String l="";
+    if(b=='A-' || b=='A+')
+    {
+      l="('A+','A-','O+','O-')";
+    }
+    else if(b=='B+'||b=='B-')
+    {
+      l="('B+','B-','O+','O-')";    
+    }
+    else if(b=="AB+"||b=="AB-")
+    {
+      l="('A+','A-','O+','O-','B+','B-','AB-','AB+')";
+    }
+    else
+    {
+      l="('O+,'O-')";
+    }
+    return l;
+  }
   var id;
   var data;
   static Widget initial=SpinKitChasingDots(
@@ -21,10 +42,13 @@ class Organ_availableState extends State<Organ_available>
   static Widget pageContent=initial;
   static Widget afterLoad;
   void getData() async{
+    print("Try");
     var conn=await MySqlConnection.connect(sql_cred);
+    print("Got it");
     var table; 
     try
     {
+      
       var result=await conn.query('select blood_group from Patient where pat_id= ?',[id]);
       var blood;
       for(var row in result)
@@ -36,9 +60,10 @@ class Organ_availableState extends State<Organ_available>
       {
         table=row[0];
       }
-      String q='select count(organ_id) from '+table+' join Organ_Donor using(Don_id) where Matched_id is Null and blood_group=?';
-    
-      result=await conn.query(q,[blood]);
+      var r=getList(blood);
+      print(r);
+      String q='select count(organ_id) from '+table+' join Organ_Donor using(Don_id) where Matched_id is Null and blood_group in '+r;
+      result=await conn.query(q);
       for(var row in result)
       {
         print("Number of Potential Match:${row[0]}");
