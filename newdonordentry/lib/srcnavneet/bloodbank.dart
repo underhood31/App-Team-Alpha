@@ -5,28 +5,25 @@ import 'mysql1.dart';
 import 'incrementBloodBank.dart';
 import 'decrementBloodBank.dart';
 import 'BloodbankTransferUnits.dart';
+import 'contactbloodbank.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BloodBankPage extends StatefulWidget {
-  static String Bloodbankid;
-  static String getBBid()
-  {
-    return Bloodbankid;
-  }
-  static void setBBid(String id)
-  {
-    Bloodbankid=id;
-  }
+
+  String Bloodbankid;
+  BloodBankPage(this.Bloodbankid);
   @override
-  _BloodBankPageState createState() => _BloodBankPageState();
+  _BloodBankPageState createState() => _BloodBankPageState(Bloodbankid);
   
   // MyTabsState createState() => new MyTabsState();
 }
 
 class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProviderStateMixin {
+  _BloodBankPageState(this.Bloodbankid);
+  String Bloodbankid;
   static List bloodgroups;
   static int Bpositive=0,Bnegative=0,Apositive=0,Anegative=0,Opositive=0,Onegative=0,ABpositive=0,ABnegative=0;
-  static String BloodBankid="BBANK_999";
+  // static String BloodBankid="BBANK_999";
   static Widget initial=SpinKitChasingDots(
     color: Colors.green,
     size: 50.0,
@@ -38,7 +35,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
     var row;
     var db = new Mysql();
       await db.getConnection().then((conn)  async{
-        String sql = "select Bpositive,Bnegative,Apositive,Anegative,ABpositive,ABnegative,Opositive,Onegative from Blood_Bank where BANK_id=\"$BloodBankid\";"; 
+        String sql = "select Bpositive,Bnegative,Apositive,Anegative,ABpositive,ABnegative,Opositive,Onegative from Blood_Bank where BANK_id=\"$Bloodbankid\";"; 
         await conn.query(sql).then((results)
         {
           row= results.elementAt(0);        
@@ -173,7 +170,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
               onTap: (){
                  Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => new IncrementBB()),
+                        MaterialPageRoute(builder: (context) => new IncrementBB(Bloodbankid)),
                       );
               },
             )
@@ -193,7 +190,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
               onTap: (){
                                  Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => new DecrementBB()),
+                        MaterialPageRoute(builder: (context) => new DecrementBB(Bloodbankid)),
                       );
 
               },
@@ -215,7 +212,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
               onTap: (){ 
                  Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => new TransferBB()),
+                        MaterialPageRoute(builder: (context) => new TransferBB(Bloodbankid)),
                       );
               },
             )
@@ -230,7 +227,13 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontSize:21)),             
-              onTap: (){},
+              onTap: (){
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => new ContactBB(Bloodbankid)),
+                      );
+
+              },
             )
           )
 

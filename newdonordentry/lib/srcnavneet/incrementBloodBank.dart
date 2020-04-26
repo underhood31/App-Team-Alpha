@@ -5,8 +5,10 @@ import 'bloodbank.dart'as bloodbankpage;
 
 
 class IncrementBB extends StatefulWidget{
+  String bloodbankid;
+  IncrementBB(this.bloodbankid);
   @override
-  IncrementBBState createState() => IncrementBBState();
+  IncrementBBState createState() => IncrementBBState(bloodbankid);
 }
 class BloodGroup {
   int id;
@@ -30,8 +32,10 @@ class BloodGroup {
 }
 
 class IncrementBBState extends State<IncrementBB>{
+  String bloodbankid;
+  IncrementBBState(this.bloodbankid);
   TextEditingController UnitsController=new TextEditingController(); 
-  static String bloodbankid="BBANK_999";
+  // static String bloodbankid="BBANK_999";
   static String _selectedBloodGroupText,Incrementvalue,alertTitle,alertContent;
   List<BloodGroup> _groups = BloodGroup.getgroups();
   BloodGroup _selectedBloodGroup;

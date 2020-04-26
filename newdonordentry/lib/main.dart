@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/signup': (BuildContext context) => new SignupPage(),
-        '/bloodbankpage':(BuildContext context)=>new BloodBankPage()
+        '/bloodbankpage':(BuildContext context)=>new BloodBankPage("BBANK_999")
       },
       home: new MyHomePage(),
     );

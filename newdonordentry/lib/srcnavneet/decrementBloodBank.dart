@@ -2,24 +2,27 @@ import 'package:flutter/material.dart';
 import 'mysql1.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'bloodbank.dart'as bloodbankpage;
 
 class DecrementBB extends StatefulWidget{
+  String bloodbankid;
+  DecrementBB(this.bloodbankid);
   @override
-  DecrementBBState createState() => DecrementBBState();
+  DecrementBBState createState() => DecrementBBState(bloodbankid);
   }
   
 class DecrementBBState extends State<DecrementBB>{
+  String bloodbankid;
+  DecrementBBState(this.bloodbankid);
   TextEditingController UnitsController=new TextEditingController(); 
   TextEditingController BloodgroupController=new TextEditingController();
   static int Bpositive=0,Bnegative=0,Apositive=0,Anegative=0,Opositive=0,Onegative=0,ABpositive=0,ABnegative=0;
   static Widget pageLayout,afterLoad;
 
- List<String> suggestions = [
+  List<String> suggestions = [
    "B+","B-","A+","A-","AB+","AB-","O+","O-"
   ];
-  SimpleAutoCompleteTextField textField;
-  bool showWhichErrorText = false;
+  // SimpleAutoCompleteTextField textField;
+  // bool showWhichErrorText = false;
 
 
 
@@ -29,7 +32,7 @@ class DecrementBBState extends State<DecrementBB>{
     size: 50.0,
   );
 
-  static String bloodbankid="BBANK_999";
+  // static String bloodbankid="BBANK_999";
   static String selectedBloodGroupText,Decrementvalue,alertTitle,alertContent;
     bool isNumeric(String s) {
           if(s == null) {
@@ -361,23 +364,4 @@ class DecrementBBState extends State<DecrementBB>{
   }
 
 
-}
-class BloodGroup {
-  int id;
-  String group;
- 
-  BloodGroup(this.id, this.group);
- 
-  static List<BloodGroup> getgroups() {
-    return <BloodGroup>[
-      BloodGroup(1, 'A+'),
-      BloodGroup(2, 'A-'),
-      BloodGroup(3, 'B+'),
-      BloodGroup(4, 'B-'),
-      BloodGroup(5, 'O+'),
-      BloodGroup(6, 'O-'),
-      BloodGroup(7, 'AB+'),
-      BloodGroup(8, 'AB-'),
-    ];
-  }
 }
