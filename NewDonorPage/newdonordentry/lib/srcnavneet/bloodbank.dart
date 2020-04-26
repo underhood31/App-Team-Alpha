@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'mysql1.dart';
 import 'incrementBloodBank.dart';
+import 'decrementBloodBank.dart';
+import 'BloodbankTransferUnits.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BloodBankPage extends StatefulWidget {
@@ -35,9 +37,9 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
   {
     var row;
     var db = new Mysql();
-      db.getConnection().then((conn)  async{
+      await db.getConnection().then((conn)  async{
         String sql = "select Bpositive,Bnegative,Apositive,Anegative,ABpositive,ABnegative,Opositive,Onegative from Blood_Bank where BANK_id=\"$BloodBankid\";"; 
-        conn.query(sql).then((results)
+        await conn.query(sql).then((results)
         {
           row= results.elementAt(0);        
           Bpositive=row[0];
@@ -52,7 +54,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
       conn.close();
   }); 
   bloodgroups=["    B+ \n $Bpositive units","    B- \n $Bnegative units","    A+ \n $Apositive units","    A- \n $Anegative units","    AB+ \n $ABpositive units","    AB- \n $ABnegative units","    O+ \n $Opositive units","    O- \n $Onegative units"];
-  print(bloodgroups);
+  // print(bloodgroups);
   }
 
 
@@ -164,7 +166,7 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
             
             elevation: 30,
             child: new ListTile(
-              title: new Text("\n\tIncrement Units of blood\n",style : TextStyle(
+              title: new Text("\n\tIncrement Blood Units\n",style : TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontSize:21)),             
@@ -173,8 +175,6 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
                         context,
                         MaterialPageRoute(builder: (context) => new IncrementBB()),
                       );
-                  // Navigator.of(context).pushNamed('/Incrementpage');
-
               },
             )
           ),
@@ -186,11 +186,17 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
             
             elevation: 30,
             child: new ListTile(
-              title: new Text("\n\tDecrement Units of blood\n",style : TextStyle(
+              title: new Text("\n\tDecrement Blood Units\n",style : TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontSize:21)),             
-              onTap: (){},
+              onTap: (){
+                                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => new DecrementBB()),
+                      );
+
+              },
             )
           ),
           Card (
@@ -206,7 +212,12 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontSize:21)),             
-              onTap: (){ },
+              onTap: (){ 
+                 Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => new TransferBB()),
+                      );
+              },
             )
           ),
           Card (
@@ -252,113 +263,3 @@ class _BloodBankPageState extends State<BloodBankPage> with SingleTickerProvider
 
 
 
-
-  // var id;
-  // PatientState(this.id);
-  // @override
-  // Widget build(BuildContext context)
-  // {
-  //   return DefaultTabController(
-  //     length: 2,
-  //     child: Scaffold(
-  //       appBar: AppBar(
-  //         actions: <Widget>[
-  //          IconButton(
-  //            icon: Icon(Icons.exit_to_app),
-  //            onPressed: (){
-  //              print("pressed");
-  //            },
-  //          )
-
-  //         ],
-  //         bottom: TabBar(
-            
-  //           tabs: <Widget>[
-  //             Tab( icon:  Icon(Icons.favorite), text: "Organs",),
-  //             Tab(icon: Icon(Icons.opacity), text: "Blood",),
-  //           ],
-  //         ),
-  //         title: Text("Logged In as a Patient"),
-  //       ),
-  //       body: TabBarView(
-  //         children: <Widget>[
-  //           //Children for Tab1 ie, Organs
-  //           ListView(
-  //             children: <Widget>[
-  //                Card(
-  //                 child: ListTile(
-  //                   leading: Icon(Icons.local_hospital,size: 48,),
-  //                   title: Text('Check Available Organs'),
-  //                   subtitle: Text(
-  //                     'Check availability of your Matching organ'
-  //                   ),
-  //                   onTap: (){
-  //                     Navigator.push(context, MaterialPageRoute(builder: (context) => Organ_available(id)),);
-  //                   },
-  //                   isThreeLine: true,
-  //                 ),
-  //               ),
-  //               Card(
-  //                 child: ListTile(
-  //                   leading: Icon(Icons.search,size: 48,),
-  //                   title: Text('Search for all organisation'),
-  //                   subtitle: Text(
-  //                     'Search for all the organisation having matching organ'
-  //                   ),
-  //                   onTap: (){
-  //                     Navigator.push(context, MaterialPageRoute(builder: (context) => All_organisation(id)),);
-  //                   },
-  //                   isThreeLine: true,
-  //                 ),
-  //               ), `
-  //               Card(
-  //                 child: ListTile(
-  //                   leading: Icon(Icons.view_list,size: 48,),
-  //                   title: Text('View Your Details'),
-  //                   subtitle: Text(
-  //                     'View Personal and Organ Details'
-  //                   ),
-  //                   onTap: (){
-  //                     Navigator.push(context, MaterialPageRoute(builder: (context) => Personal(id)),);
-  //                   },
-  //                   isThreeLine: true,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //           //Children for Tab2 ie, Blood
-  //           ListView(
-  //             children: <Widget>[
-  //               Card(
-  //                 child: ListTile(
-  //                   leading: Icon(Icons.help,size: 48,),
-  //                   title: Text('Available blood groups'),
-  //                   subtitle: Text(
-  //                     'Check availability of the blood groups and know the location where they are present.'
-  //                   ),
-  //                   isThreeLine: true,
-  //                   onTap: (){
-  //                     Navigator.push(context, MaterialPageRoute(builder: (context) => Blood_avialable()),);
-  //                   }
-  //                 ),
-  //               ),
-  //               Card(
-  //                 child: ListTile(
-  //                   leading: Icon(Icons.map,size: 48,),
-  //                   title: Text('Blood Banks'),
-  //                   subtitle: Text(
-  //                     'Find the nearest Blood Bank for donating and recieving blood based upon the PIN code of your area.'
-  //                   ),
-  //                   isThreeLine: true,
-  //                   onTap: (){
-  //                     Navigator.push(context, MaterialPageRoute(builder: (context) => Near_bloodbank()),);
-  //                   }
-  //                 ),
-  //               )
-  //             ],
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }s
