@@ -391,11 +391,11 @@ class _SignupPageState extends State<SignupPage> {
                        color: Colors.greenAccent,
                       ))]
               ),
-                Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                         Text(
-                            'Do you want to be a Blood Donor?',
+                            'Name',
                             style: TextStyle(fontFamily: 'Montserrat',fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 5.0),              
