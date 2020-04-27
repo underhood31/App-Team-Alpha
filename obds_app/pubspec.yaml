@@ -17,8 +17,11 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  dropdown_menu: ^1.1.0
   string_validator: ^0.1.4
+  pull_to_refresh: ^1.5.7
   autocomplete_textfield: ^1.7.3
+  percent_indicator: "^2.1.1"
   mysql1: ^0.17.1
   flutter_spinkit: ^4.0.0
   flutter:
@@ -31,6 +34,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    
 
 
 # For information on the generic Dart part of this file, see the
@@ -38,7 +42,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
+  assets:
+    - assets/
+    - assets/doc.jpg
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

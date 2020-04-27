@@ -3,6 +3,7 @@ import 'package:mysql1/mysql1.dart';
 import 'package:obdsapp/src/Blood_available.dart';
 import 'package:obdsapp/src/d_check_organ.dart';
 import 'package:obdsapp/src/d_orgHist.dart';
+import 'package:obdsapp/src/d_organ_organisations.dart';
 import '../main.dart';
 import 'Near_bloodbank.dart';
 import 'd_search.dart';
@@ -51,7 +52,7 @@ class DoctorState extends State<Doctor>{
                     leading: Icon(Icons.local_hospital,size: 48,),
                     title: Text('Check Available Organs'),
                     subtitle: Text(
-                      'Check availability of organs, search organs and mark them for use.'
+                      'Check availability of organs, search organs.'
                     ),
                     trailing: Icon(Icons.more_vert),
                     // isThreeLine: true,
@@ -70,15 +71,7 @@ class DoctorState extends State<Doctor>{
                   child: ListTile(
                     leading: Icon(Icons.search,size: 48,),
                     onTap: ()  {
-                      //   try{
-                      //   var conn = await MySqlConnection.connect(sql_cred);
-                      //   // var query="SELECT * FROM ProtData where Roll_no=\"$_id\";";
-                      //   var results = conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values (?,?,?,?,?,?,?,?)',["23","ND_3","Name","Address","9012599079","Unknown","243122","Lung"]);
-                      //   await conn.close();
-                      //   print(results);
-                      // }catch(e){
-                      //   print("functions.dart: Exception thrown ${e.toString()} ");
-                      // }
+                     
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => SearchOrgans()),
@@ -86,7 +79,7 @@ class DoctorState extends State<Doctor>{
                     },
                     title: Text('Search Compatibility of the Organs'),
                     subtitle: Text(
-                      'Search for compatible organs and mark for use.'
+                      'Search for compatible organs.'
                     ),
                     trailing: Icon(Icons.more_vert),
                     isThreeLine: true,
@@ -112,6 +105,13 @@ class DoctorState extends State<Doctor>{
                 Card(
                   child: ListTile(
                     leading: Icon(Icons.map,size: 48,),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => OrganOrganisations()),
+                      );
+
+                    },
                     title: Text('Organ Donation Organisations'),
                     subtitle: Text(
                       'Find the nearest Organisation for donating and recieving oragans based upon the PIN code of your area.'

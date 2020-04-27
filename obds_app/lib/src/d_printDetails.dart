@@ -26,7 +26,7 @@ class PrintDetailsState extends State<PrintDetails>{
     Results data;
     try{
       var conn = await MySqlConnection.connect(sql_cred);
-      data = await conn.query("select * from ${this.table} as C INNER JOIN Patient as P ON C.PAT_id=P.PAT_id where C.ORGAN_id='${this.org_id}';");
+      data = await conn.query("select P.PAT_id, Matched_id, Weight, Last_check_up_date, Doc_id, Age, Blood_Group from ${this.table} as C INNER JOIN Patient as P ON C.PAT_id=P.PAT_id where C.ORGAN_id='${this.org_id}';");
       await conn.close();
     } catch(e){
       print("Exception thrown $e");
@@ -34,7 +34,7 @@ class PrintDetailsState extends State<PrintDetails>{
     if(data.isEmpty){
       try{
         var conn = await MySqlConnection.connect(sql_cred);
-        data = await conn.query("select * from ${this.table} as C INNER JOIN Organ_Donor as D ON C.DON_id=D.DON_id where C.ORGAN_id='${this.org_id}';");
+        data = await conn.query("select D.DON_id, Matched_id, Weight, Last_check_up_date,Age, Blood_Group from ${this.table} as C INNER JOIN Organ_Donor as D ON C.DON_id=D.DON_id where C.ORGAN_id='${this.org_id}';");
         await conn.close();
       } catch(e){
         print("Exception thrown $e");

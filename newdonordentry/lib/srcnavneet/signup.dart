@@ -48,6 +48,7 @@ class Organ {
 class _SignupPageState extends State<SignupPage> {
 
   String alertTitle="Error",alertContent="";
+  List<DropdownMenuItem<Organ>> items=new List<DropdownMenuItem<Organ>>();
 
   createAlertDialog(BuildContext context)
   {
@@ -395,7 +396,7 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                         Text(
-                            'Name',
+                            'Do you want to be an Blood Donor',
                             style: TextStyle(fontFamily: 'Montserrat',fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 5.0),              
@@ -418,6 +419,10 @@ class _SignupPageState extends State<SignupPage> {
                             onChanged: (bool value )
                             {setState(() {
                               OrganDonorCheckBox=value;
+                              if(value)
+                                items=buildOrganDropdownMenuItems(_organs);
+                              else
+                                items=new List<DropdownMenuItem<Organ>>();
                             });})
                            ,]
                         ),
@@ -430,8 +435,10 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 SizedBox(width: 5.0),              
                 DropdownButton(
+                  
                   value: _selectedOrgan,
-                items: buildOrganDropdownMenuItems(_organs),
+                items: items,
+                // items: buildOrganDropdownMenuItems(_organs),
                 
                 onChanged: onChangeOrganDropdownItem,
                  underline: Container(

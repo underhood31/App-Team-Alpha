@@ -115,24 +115,13 @@ class CheckOrganState extends State<CheckOrgans>{
     }
   }
   void callAll() async{
-    // await getCornea();
-    // await getKidney();
-    // await getHeart();
-    // await getLiver();
-    // await getLungs();
-    // await getPancreas();
-    var query="select count(*) from Cornea where DON_id is not NULL union select count(*) from Heart where DON_id is not NULL union select count(*) from Kidney where DON_id is not NULL select count(*) from Liver where DON_id is not NULL select count(*) from Lung where DON_id is not NULL select count(*) from Pancreas where DON_id is not NULL;";
-    try{
-      var conn = await MySqlConnection.connect(sql_cred);
-      var results = await conn.query(query);
-      await conn.close();
-      for (var i in results){
-        heart=i[0];
-      }
-      // print(kidney.fields[0]);
-    } catch(e){
-      print("Exception thrown $e");
-    }
+    await getCornea();
+    await getKidney();
+    await getHeart();
+    await getLiver();
+    await getLungs();
+    await getPancreas();
+    
   }
 
   

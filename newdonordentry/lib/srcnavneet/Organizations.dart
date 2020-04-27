@@ -17,15 +17,16 @@ class OrganizationState extends State<Organization> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(appBar: AppBar(          
+      leading: Text(""),
       backgroundColor:Colors.green,
-      title: Text("Logged In as a Blood-Bank "),
+      title: Text("Logged In as a Organisation"),
+      centerTitle: true,
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.exit_to_app),
           onPressed: (){
-          print("link Go back to login screen");
+            Navigator.pushReplacementNamed(context, "/logout");
           },
         )
       ],

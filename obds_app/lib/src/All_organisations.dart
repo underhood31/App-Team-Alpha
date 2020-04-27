@@ -18,11 +18,32 @@ class All_organisationState extends State<All_organisation>
     color: Colors.green,
     size: 50.0,
   );
+   String getList(String b)
+  {
+    String l="";
+    if(b=='A-' || b=='A+')
+    {
+      l="('A+','A-','O+','O-')";
+    }
+    else if(b=='B+'||b=='B-')
+    {
+      l="('B+','B-','O+','O-')";    
+    }
+    else if(b=="AB+"||b=="AB-")
+    {
+      l="('A+','A-','O+','O-','B+','B-','AB-','AB+')";
+    }
+    else
+    {
+      l="('O+,'O-')";
+    }
+    return l;
+  }
   static Widget pageContent=initial;
   static Widget afterLoad;
   void getData() async{
     var conn=await MySqlConnection.connect(sql_cred); 
-    //try
+    try
     {
       var result=await conn.query('select blood_group from Patient where pat_id= ?',[id]);
       var blood;
@@ -39,9 +60,10 @@ class All_organisationState extends State<All_organisation>
       print(id);
       print(table);
       print(blood);
-      String q='select o.Name, o.Address, o.Contact from  Organisation o where org_id in(select distinct o.Org_id from  Organisation o join Organ_Donor using(ORG_id) where don_id in(select Don_id from '+table+' join Organ_Donor using(Don_id) where Matched_id is Null and blood_group=?))';
+      var r=getList(blood);
+      String q='select o.Name, o.Address, o.Contact from  Organisation o where org_id in(select distinct o.Org_id from  Organisation o join Organ_Donor using(ORG_id) where don_id in(select Don_id from '+table+' join Organ_Donor using(Don_id) where Matched_id is Null and blood_group in '+r+'))';
     
-      result=await conn.query(q,[blood]);
+      result=await conn.query(q);
 
       for(var row in result)
       {
@@ -50,10 +72,10 @@ class All_organisationState extends State<All_organisation>
       }
       data=result;
     }
-    //catch(e)
-    //{
-      //print("Exception");
-    //}
+    catch(e)
+    {
+      print("Exception");
+    }
     await conn.close();
     var allFeilds=new List();
     var relevantData=new List();
