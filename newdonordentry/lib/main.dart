@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'srcnavneet/signup.dart';
 import 'srcnavneet/bloodbank.dart';
+import 'srcnavneet/Organizations.dart';
 
 void main() => runApp(new MyApp());
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: <String, WidgetBuilder>{
         '/signup': (BuildContext context) => new SignupPage(),
-        '/bloodbankpage':(BuildContext context)=>new BloodBankPage()
+        '/bloodbankpage':(BuildContext context)=>new Organization("ORG_971")
       },
       home: new MyHomePage(),
     );

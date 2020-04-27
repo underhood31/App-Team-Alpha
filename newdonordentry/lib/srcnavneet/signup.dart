@@ -67,7 +67,7 @@ class _SignupPageState extends State<SignupPage> {
 
     });
 
-      }
+  }
       bool isNumeric(String s) {
           if(s == null) {
               return false;
@@ -218,8 +218,7 @@ class _SignupPageState extends State<SignupPage> {
     final PinController=new TextEditingController();
     final PhoneController=new TextEditingController();
     String Name,Age,Address,Pincode,Phone,Blood_group,Select_Organ;
-
-  List<DropdownMenuItem<BloodGroup>> buildDropdownMenuItems(List groups) {
+    List<DropdownMenuItem<BloodGroup>> buildDropdownMenuItems(List groups) {
     List<DropdownMenuItem<BloodGroup>> items = List();
     for (BloodGroup BloodGroup1 in groups) {
       items.add(
@@ -374,7 +373,7 @@ class _SignupPageState extends State<SignupPage> {
                   //       focusedBorder: UnderlineInputBorder(
                   //           borderSide: BorderSide(color: Colors.green))),
                   // ),
-                              Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
@@ -392,11 +391,11 @@ class _SignupPageState extends State<SignupPage> {
                        color: Colors.greenAccent,
                       ))]
               ),
-                              Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                         Text(
-                            'Do you want to be a Blood Donor?',
+                            'Name',
                             style: TextStyle(fontFamily: 'Montserrat',fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 5.0),              
@@ -475,8 +474,13 @@ class _SignupPageState extends State<SignupPage> {
                               }
                               else if(!isNumeric(Age))
                               {
-                                                                print("hello12");
-
+                                print("hello12");
+                                alertContent="Enter your age in Numeric form like \'20\'";
+                                createAlertDialog(context);
+                              }
+                              else if(Age.contains("."))
+                              {
+                                print("hello12");
                                 alertContent="Enter your age in Numeric form like \'20\'";
                                 createAlertDialog(context);
                               }

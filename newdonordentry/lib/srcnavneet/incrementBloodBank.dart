@@ -5,8 +5,10 @@ import 'bloodbank.dart'as bloodbankpage;
 
 
 class IncrementBB extends StatefulWidget{
+  String bloodbankid;
+  IncrementBB(this.bloodbankid);
   @override
-  IncrementBBState createState() => IncrementBBState();
+  IncrementBBState createState() => IncrementBBState(bloodbankid);
 }
 class BloodGroup {
   int id;
@@ -30,8 +32,10 @@ class BloodGroup {
 }
 
 class IncrementBBState extends State<IncrementBB>{
+  String bloodbankid;
+  IncrementBBState(this.bloodbankid);
   TextEditingController UnitsController=new TextEditingController(); 
-  static String bloodbankid="BBANK_999";
+  // static String bloodbankid="BBANK_999";
   static String _selectedBloodGroupText,Incrementvalue,alertTitle,alertContent;
   List<BloodGroup> _groups = BloodGroup.getgroups();
   BloodGroup _selectedBloodGroup;
@@ -50,7 +54,7 @@ class IncrementBBState extends State<IncrementBB>{
   onChangeDropdownItem(BloodGroup selectedBloodGroup) {
       setState(() {
         _selectedBloodGroup = selectedBloodGroup;
-        print(_selectedBloodGroup.group);
+        // print(_selectedBloodGroup.group);
       });
     }
     bool isNumeric(String s) {
@@ -62,21 +66,20 @@ class IncrementBBState extends State<IncrementBB>{
 
   void UpdateValues() async
   {
-    var row;
     var db = new Mysql();
       db.getConnection().then((conn)  async{
         String sql = "update Blood_Bank set $_selectedBloodGroupText =$_selectedBloodGroupText  + $Incrementvalue where BANK_id=\"$bloodbankid\";"; 
         conn.query(sql);
         conn.close();
         alertTitle="Success !!";
-        alertContent="Added $Incrementvalue Units blood to $_selectedBloodGroupText";
+        alertContent="Added $Incrementvalue Units of blood to $_selectedBloodGroupText";
         createAlertDialog(context);
 
   }); 
   }
     createAlertDialog(BuildContext context)
   {
-    print(alertTitle);
+    // print(alertTitle);
     return showDialog(context: context ,builder:(context){
     return AlertDialog(
       title: Text(alertTitle,     style: TextStyle(fontFamily: 'Montserrat'),),
@@ -150,8 +153,8 @@ class IncrementBBState extends State<IncrementBB>{
                                     elevation:5,
                                     child :Text("Go",style: TextStyle(fontFamily: 'Montserrat')),  
                                     onPressed: () async{
-                                      print(_selectedBloodGroup);
-                                      print(UnitsController.text);
+                                      // print(_selectedBloodGroup);
+                                      // print(UnitsController.text);
                                       if(_selectedBloodGroup==null)
                                       {
                                         alertTitle="Error";
@@ -165,6 +168,21 @@ class IncrementBBState extends State<IncrementBB>{
                                         createAlertDialog(context);
 
                                       }
+                                      else if(UnitsController.text.contains("."))
+                                      {
+                                        alertTitle="Error";
+                                        alertContent="Units can be Integers Only";
+                                        createAlertDialog(context);
+
+                                      }
+                                      else if(UnitsController.text.contains("-"))
+                                      {
+                                        alertTitle="Error";
+                                        alertContent="Units cannot be a negative value";
+                                        createAlertDialog(context);
+
+                                      }
+
                                       else
                                       {
                                         if(_selectedBloodGroup.group=='B+')
