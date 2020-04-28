@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'contactdonorOrganisation.dart';
 import 'contactblooddonorOrganisation.dart';
 import 'mysql1.dart';
+import './Details.dart';
+import './Inactive.dart';
 
 class Organization extends StatefulWidget
 {
@@ -36,54 +38,39 @@ class OrganizationState extends State<Organization> {
         child:      ListView(
 
         children: <Widget>[
-          Card (
-            
-            shape:new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)
-            ),
-            
-            elevation: 30,
-            child: new ListTile(
-              title: new Text("\nVerify New Donor\n",style : TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.black,
-                            fontSize:21)),             
-              onTap: (){
-                //  Navigator.push(
-                        // context,
-                        // MaterialPageRoute(builder: (context) => new IncrementBB(Bloodbankid)),
-                      // );
-              },
-            )
-          ),
-          Card (
-            
-            shape:new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)
-            ),
-            
-            elevation: 30,
-            child: new ListTile(
-              title: new Text("\nVerify checkup of an old Donor\n",style : TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Colors.black,
-                            fontSize:21)),             
-              onTap: (){
-                      //            Navigator.push(
-                      //   context,
-                      //   // MaterialPageRoute(builder: (context) => new DecrementBB(Bloodbankid)),
-                      // );
+                           Card(
+                  child: ListTile(
+                    leading: Icon(Icons.add,size: 48,),
+                    title: Text('Add Donor to Verified Donor'),
+                    subtitle: Text(
+                      'Add an Donor to the verified donor list'
+                    ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Details(Org_id)),);
+                    },
+                    isThreeLine: true,
+                  ),
+                ),
+                Card(
 
-              },
-            )
-          ),
+                  child: ListTile(
+                    leading: Icon(Icons.check,size: 48,),
+                    title: Text('Mark Donors as inactive'),
+                    subtitle: Text(
+                      'Mark Donors inactive related to your Organisation'
+                    ),
+                    onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Inactive(Org_id)),);
+                    },
+                    isThreeLine: true,
+                  ),
+                ),
+
           Card (            
-            shape:new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)
-            ),
             
-            elevation: 30,
             child: new ListTile(
+                                  leading: Icon(Icons.opacity,size: 48,),
+
               title: new Text("\n Blood Donor List \n",style : TextStyle(
                             fontFamily: 'Montserrat',
                             color: Colors.black,
@@ -97,12 +84,13 @@ class OrganizationState extends State<Organization> {
             )
           ),
           Card (
-            shape:new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(20.0)
-            ),            
-            elevation: 30,
+
             child: new ListTile(
+
+                                  leading: Icon(Icons.assistant,size: 48,),
+
               title: new Text("\n Organ Donor List \n",style : TextStyle(
+
                             fontFamily: 'Montserrat',
                             color: Colors.black,
                             fontSize:21)),             
