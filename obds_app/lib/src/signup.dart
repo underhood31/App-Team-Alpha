@@ -37,8 +37,8 @@ class Organ {
     return <Organ>[
       Organ(1, 'Cornea'),
       Organ(2, 'Heart'),
-      Organ(3, 'Kidney'),
-      Organ(4, 'Liver'),
+      Organ(3, 'Heart'),
+      Organ(4, 'Kidney'),
       Organ(5, 'Lung'),
       Organ(6, 'Pancreas'),
       Organ(7,'None')
@@ -52,7 +52,7 @@ class _SignupPageState extends State<SignupPage> {
 
   createAlertDialog(BuildContext context)
   {
-    // print(alertTitle);
+    print(alertTitle);
     return showDialog(context: context ,builder:(context){
     return AlertDialog(
       title: Text(alertTitle,     style: TextStyle(fontFamily: 'Montserrat'),),
@@ -78,7 +78,7 @@ class _SignupPageState extends State<SignupPage> {
         int entrylength=0;
         String lastentry;
   
-      void insertDonor() async  
+      void insertDonor()  
       {
         List<int> donlist=[];
         int id=1;
@@ -92,7 +92,7 @@ class _SignupPageState extends State<SignupPage> {
           // conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
             await Future.delayed(Duration(seconds: 2),()
             {
-              // print("await1 start");
+              print("await1 start");
               conn.query(sql).then((results) {
             entrylength=results.length;
             if(entrylength!=0)
@@ -108,38 +108,38 @@ class _SignupPageState extends State<SignupPage> {
                 id++;
               }
             }
-            // print("await2 ends");
+            print("await2 ends");
 
           });
           });
           await Future.delayed(Duration(seconds: 2),()
           {
-                          // print("await2 start");
+                          print("await2 start");
 
           if(entrylength==0)
               {
                 String id="ND_1";
-                // print("In if");
+                print("In if");
                  conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
               }
           else
               {
-                // print("In else");
+                print("In else");
                 String DON_id="ND_";
                 // var a=int.parse(lastentry.substring(3));
                 DON_id+=(id).toString();
                 // print(id);
-                // print(DON_id);
+                print(DON_id);
                 conn.query('insert into New_Donor(Age,DON_id,Name,Address,Contact,Blood_Group,Pincode,Organ) values ("$Age","$DON_id","$Name","$Address","$Phone","$Blood_group","$Pincode","$Select_Organ")');
-                // print("inserted");
+                print("inserted");
               }
-                        // print("await2 ends");
+                        print("await2 ends");
 
           });
           conn.close();
         });
       }  
-      void insertBloodDonor() async
+      void insertBloodDonor()
       {
         List<int> donlist=[];
         int id=1;
@@ -169,7 +169,7 @@ class _SignupPageState extends State<SignupPage> {
                 id++;
               }
             }
-            // print("await2 ends");
+            print("await2 ends");
 
           });
           });
@@ -180,21 +180,21 @@ class _SignupPageState extends State<SignupPage> {
           if(entrylength==0)
               {
                 String id="NBD_1";
-                // print("In if");
-                conn.query('insert into New_Blood_Donor(Age,BLD_id,Name,Address,Contact,Blood_Group,Pincode) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode")');
+                print("In if");
+                 conn.query('insert into New_Blood_Donor(Age,BLD_id,Name,Address,Contact,Blood_Group,Pincode) values ("$Age","$id","$Name","$Address","$Phone","$Blood_group","$Pincode")');
               }
           else
               {
-                // print("In else");
+                print("In else");
                 String DON_id="NBD_";
                 // var a=int.parse(lastentry.substring(3));
                 DON_id+=(id).toString();
                 // print(id);
-                // print(DON_id);
+                print(DON_id);
                 conn.query('insert into New_Blood_Donor(Age,BLD_id,Name,Address,Contact,Blood_Group,Pincode) values ("$Age","$DON_id","$Name","$Address","$Phone","$Blood_group","$Pincode")');
-                // print("inserted");
+                print("inserted");
               }
-                        // print("await2 ends");
+                        print("await2 ends");
 
           });
           conn.close();
@@ -234,7 +234,7 @@ class _SignupPageState extends State<SignupPage> {
   onChangeDropdownItem(BloodGroup selectedBloodGroup) {
   setState(() {
     _selectedBloodGroup = selectedBloodGroup;
-    // print(_selectedBloodGroup.group);
+    print(_selectedBloodGroup.group);
   });
   }
 
@@ -253,7 +253,7 @@ class _SignupPageState extends State<SignupPage> {
   onChangeOrganDropdownItem(Organ selectedOrgan) {
   setState(() {
     _selectedOrgan = selectedOrgan;
-    // print(_selectedOrgan.group);
+    print(_selectedOrgan.group);
   });
   }
 
@@ -458,7 +458,7 @@ class _SignupPageState extends State<SignupPage> {
                         // child: GestureDetector(
                           onPressed: () {
                             // insertdonor();
-                            // print("hello");
+                            print("hello");
                             setState(() {
                               Name=NameController.text;
                               Age=AgeController.text;
@@ -467,33 +467,33 @@ class _SignupPageState extends State<SignupPage> {
                               Phone=PhoneController.text;
                               if(Name.length==0)
                               {    
-                                                                // print("hello14");
+                                                                print("hello14");
 
                                 alertContent="Name Field cannot be Empty";
                                 createAlertDialog(context);
                               }
                               else if(Age.length==0)
                               {
-                                                                //print("hello13");
+                                                                print("hello13");
 
                                 alertContent="Age Field cannot be Empty";
                                 createAlertDialog(context);
                               }
                               else if(!isNumeric(Age))
                               {
-                                //print("hello12");
+                                print("hello12");
                                 alertContent="Enter your age in Numeric form like \'20\'";
                                 createAlertDialog(context);
                               }
                               else if(Age.contains("."))
                               {
-                                //print("hello12");
+                                print("hello12");
                                 alertContent="Enter your age in Numeric form like \'20\'";
                                 createAlertDialog(context);
                               }
                               else if(Address.length==0)
                               {
-                                                                //print("hello10");
+                                                                print("hello10");
 
                                 alertContent="Address Field cannot be Empty";
                                 createAlertDialog(context);
@@ -502,14 +502,14 @@ class _SignupPageState extends State<SignupPage> {
 
                               else if(Pincode.length==0)
                               {
-                                                                //print("hello9");
+                                                                print("hello9");
 
                                 alertContent="Pincode Field cannot be Empty";
                                 createAlertDialog(context);
                               }
                               else if(!isNumeric(Pincode))
                               {
-                                                                //print("hello8");
+                                                                print("hello8");
 
                                 alertContent="Pincode should be Numeric of the form XXXXXX \n e.g: 243122";
                                 createAlertDialog(context);
@@ -521,21 +521,21 @@ class _SignupPageState extends State<SignupPage> {
                               }
                               else if(!isNumeric(Phone))
                               {
-                                                                //print("hello5");
+                                                                print("hello5");
 
                                 alertContent="PHone number should contain digits only.";
                                 createAlertDialog(context);
                               }
                               else if(_selectedBloodGroup==null)
                               {
-                                //print("hello3");
+                                print("hello3");
 
                                 alertContent="Please Select a Blood Group \n Choose \"Not Sure\" if you are not sure";
                                 createAlertDialog(context);
                               }
                               else if(!OrganDonorCheckBox && !BloodDonorCheckBox)
                               {
-                                //print("hello31");
+                                print("hello31");
 
                                 alertContent="Choose atleast one of the Organ Donor and Blood Donor checkboxes.";
                                 createAlertDialog(context);
@@ -553,43 +553,43 @@ class _SignupPageState extends State<SignupPage> {
                               else{
                                   var age=int.parse(Age);
                                   var pin=int.parse(Pincode);
-                                  //print(pin);
+                                  print(pin);
                                   if(age<17)
                                   {
-                                    //print("helloage");
+                                    print("helloage");
                                     alertContent="Minimum age can be 18";
                                     createAlertDialog(context);
                                   }
                                   else if(Pincode.length!=6 && !(Pincode.length==7 && Pincode[Pincode.length-1]==" "))
                                   {
-                                    //print("hello7");
-                                    //print(Pincode.length);
-                                    //print(Pincode);
+                                    print("hello7");
+                                    print(Pincode.length);
+                                    print(Pincode);
                                       alertContent="Not a valid Pincode ";
                                       createAlertDialog(context);
                                   }
                                   else if(pin>929999 ||pin <110000)
                                   {
-                                    //print("hello6");
+                                    print("hello6");
                                     alertContent="NOt a valid Pincode";
                                     createAlertDialog(context);
                                   }
                                   else if(Phone.length!=10 && !(Phone.length==11 && Phone[Phone.length-1]==" "))
                                   {
-                                    //print("hello4");
+                                    print("hello4");
                                     alertContent="Please Enter a valid mobile number";
                                     createAlertDialog(context);
                                   }
                                   else
                                   {
-                                    // //print("hello2");
-                                    // //print(Name); 
-                                    // //print(Age); 
-                                    // //print(Address); 
-                                    // //print(Pincode); 
-                                    // //print(Phone); 
-                                    // //print(OrganDonorCheckBox);
-                                    // print(BloodDonorCheckBox);
+                                    print("hello2");
+                                    print(Name); 
+                                    print(Age); 
+                                    print(Address); 
+                                    print(Pincode); 
+                                    print(Phone); 
+                                    print(OrganDonorCheckBox);
+                                    print(BloodDonorCheckBox);
                                     Blood_group=_selectedBloodGroup.group;
                                     if(Blood_group=="Not sure")
                                     {
@@ -623,11 +623,6 @@ class _SignupPageState extends State<SignupPage> {
                                     BloodDonorCheckBox=false;
                                     _selectedBloodGroup=null;
                                     _selectedOrgan=null;
-                                    alertTitle="Sign-up was Succesful";
-                                    alertContent="Nearest Organization will contact you Shortly";
-                                    createAlertDialog(context);
-                                    alertTitle="Error";
-
                                   } 
                               }
                             });
