@@ -60,7 +60,8 @@ class Insert_donorState extends State<Insert_donor>
       x+=1;
       Don_id="Don_"+x.toString();
       String s="Alive";
-      await conn.query('Insert into Organ_Donor(Age,Name,Address,Contact,Pincode,Don_id,Blood_Group,Last_check_up_date,Status,ORG_id) Values("$Age","$Name","$Address","$Contact","$Pincode","$Don_id","$blood","$date","$s","$id")');
+      bool ac=true;
+      await conn.query('Insert into Organ_Donor(Age,Name,Address,Contact,Pincode,Don_id,Blood_Group,Last_check_up_date,Status,ORG_id,Active) Values("$Age","$Name","$Address","$Contact","$Pincode","$Don_id","$blood","$date","$s","$id","$ac")');
       await conn.query("Delete from New_Donor where don_id=?",[donor]);
       await conn.query('Insert into Donors_Organ(DON_id,Organ) Values("$Don_id","$Organ")');
       Organ=Organ.toLowerCase();

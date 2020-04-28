@@ -30,7 +30,7 @@ class Show_bloodState extends State<Show_blood>
     {
       blood=blood[0]+'negative';
     }
-    String lower =pincode[0]+pincode[1]+pincode[2];
+    String lower =pincode[0]+pincode[1];
     lower+='%';
     print(blood);
     print(lower);
