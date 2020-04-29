@@ -112,7 +112,7 @@ class PrintOrganisationState extends State<PrintOrganisation>{
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Organ History"),
+        title: Text("Organistaion Details"),
       ),
       body: Center(
         child: onsreen,

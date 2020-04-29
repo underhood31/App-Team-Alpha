@@ -3,9 +3,6 @@ import 'package:obdsapp/src/Cornea.dart';
 import 'package:obdsapp/src/Eligible.dart';
 import 'package:obdsapp/src/Pending.dart';
 import 'package:obdsapp/src/Shortage.dart';
-import 'package:obdsapp/src/TEMP.dart';
-import 'package:obdsapp/src/bloodbank.dart';
-import 'package:obdsapp/src/doctor.dart';
 import 'package:obdsapp/src/signup.dart';
 import './src/login.dart';
 import 'package:mysql1/mysql1.dart';
@@ -31,6 +28,15 @@ ConnectionSettings sql_cred=new ConnectionSettings(
       password: 'yz51KaPFRg',
       db: 'ED3QOAIOQK'
     );
+
+ConnectionSettings backup_cred=new ConnectionSettings(
+    host: 'db4free.net',
+    port: 3306,
+    user: 'dbms_2020',
+    password: 'Dbms@2020',
+    db: 'dbms_obds'
+    
+  );
 List<String> organList= new List<String>(6);
 void main(){
   organList[0]="Cornea";

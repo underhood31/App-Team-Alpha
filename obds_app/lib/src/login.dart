@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mysql1/mysql1.dart';
+import 'package:obdsapp/main.dart';
 import 'package:obdsapp/src/Donor.dart';
 import 'package:obdsapp/src/Organizations.dart';
 import 'package:obdsapp/src/Patient.dart';
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
             // Creating the background
             new Image(image: new AssetImage("assets/hands.jpg"),
                 fit: BoxFit.cover,
-                color: Colors.black87,
+                color: Colors.black54,
                 colorBlendMode: BlendMode.luminosity),
             new Column(
               mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
@@ -176,7 +178,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => Organization(results.elementAt(0).values[0])));
                                       }
                                       else if(category.toLowerCase()=="donor"){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DonorPage(results.elementAt(0).values[0])));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DonorPage(results.elementAt(0).values[0],true)));
                                       }
                                     }
                                   });
@@ -196,17 +198,23 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 color: Colors.teal,
                 splashColor: Colors.blue,),
                 RaisedButton.icon(
-                  icon: Icon(Icons.swap_horizontal_circle),
-                  label: Text("Change DB (for debuging purpose only)"),
+                  icon: Icon(Icons.swap_horizontal_circle,color: Colors.white,),
+                  color: Colors.black12,
+                  label: Text("Change DB (for debuging purpose only)", style: TextStyle(color: Colors.white),),
                   onPressed: (){
                     print("tapped");
+                    ConnectionSettings temp;
+                    //Swapping credentials
+                    temp = sql_cred;
+                    sql_cred=backup_cred;
+                    backup_cred=temp;
+
                     Fluttertoast.showToast(
-                      msg: "Hello world",
-                      textColor: Colors.white,
+                      msg: "Connection changed to ${sql_cred.host}",
+                      textColor: Colors.black,
                       toastLength: Toast.LENGTH_SHORT,
-                      // timeInSecForIos: 1,
                       gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.indigo,
+                      backgroundColor: Colors.white,
                     );
                   },
                   

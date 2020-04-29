@@ -8,16 +8,18 @@ import 'dorgs.dart';
 class DonorPage extends StatefulWidget {
 
   String id;
-  DonorPage(this.id);
+  bool stat;
+  DonorPage(this.id,this.stat);
   @override
-  _DonorPageState createState() => _DonorPageState(id);
+  _DonorPageState createState() => _DonorPageState(id,stat);
 
 }
 
 class _DonorPageState extends State<DonorPage>  {
 
   String id ;
-  _DonorPageState(this.id);
+  bool stat;
+  _DonorPageState(this.id,this.stat);
 
   Mysql sql = Mysql();
 
@@ -27,22 +29,22 @@ class _DonorPageState extends State<DonorPage>  {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-      appBar: AppBar(centerTitle: true,leading: Text(""),backgroundColor: Colors.green, title: Text("Logged in as Organ Donor"),
-      actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app),
-        onPressed: (){
-          Navigator.pushReplacementNamed(context, "/logout");
-        }
-       ,),],),
+      appBar: AppBar(backgroundColor: Colors.green, title: Text("Logged in as Organ Donor"),
+      actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app), onPressed:null ,),],),
 
       body: new Stack(fit: StackFit.expand, children: <Widget>[
-        // new Image(image: AssetImage('Assets/jc-gellidon-9Eb-bpTXglM-unsplash.jpg'),fit: BoxFit.fitWidth, color: Colors.black87,
-        // colorBlendMode: BlendMode.luminosity),
-        ListView(children: <Widget>[new Padding(padding: EdgeInsets.all(5)),Card(color: Colors.white ,child : ListTile(leading: Icon(Icons.add_alert, size : 48),title: Text("Report Pick Up"),subtitle: Text("Reporting death of donor and pick up of organ"), onTap: () => {Navigator.push(
-            context, MaterialPageRoute(builder: (context) => new reportDeath(id)),)}, isThreeLine: true,)),
-                                    Card(color: Colors.white, child: ListTile(leading: Icon(Icons.apps, size : 48),title: Text("Find Organisations"),subtitle: Text("List of organisations that accept your organ"), onTap: () =>
-                                    {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => new ContactOG(id)),)
-                                    }, isThreeLine: true,),),],)
+        new Image(image: AssetImage('Assets/jc-gellidon-Ks5m44_nmVs-unsplash.jpg'),fit: BoxFit.fitWidth, color: Colors.black87,
+        colorBlendMode: BlendMode.luminosity),
+        ListView(children: <Widget>[new Padding(padding: EdgeInsets.all(5)),
+          Card(color: Colors.white, child: ListTile(leading: Icon(Icons.apps, size : 48),title: Text("Find Organisations"),subtitle: Text("List of organisations that accept your organ"), onTap: () =>
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => new ContactOG(id)),)
+          }, isThreeLine: true,),),
+          if (stat == true)
+            Card(color: Colors.white, child: ListTile(leading: Icon(Icons.add_alert, size : 48),title: Text("Report Pick Up"),subtitle: Text("Report death of donor and organ pickup"), onTap: () =>
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => new reportDeath(id)),)
+            }, isThreeLine: true,),)],)
         ],
       ),
         floatingActionButton: FloatingActionButton(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutterapp/Donor.dart';
 import 'Donor.dart';
 import 'mysql1.dart';
-// import 'sql1.dart';
 
 class reportDeath extends StatefulWidget {
 
@@ -62,35 +61,56 @@ class _reportDeathState extends State<reportDeath> with SingleTickerProviderStat
                           new Padding(padding: EdgeInsets.only(top: 30)),
                           // ignore: missing_return
                         ])),)),
-              new RaisedButton.icon(onPressed: ()  {
+              new RaisedButton.icon(onPressed: () {
 
     if (emailController.text == "" && passwordController.text == "")
     {
-      return showDialog(
-      context: context, builder: (context) {
-      return AlertDialog(
-      content: Text("Fields Empty\nPlease Fill in the Details"));
-      });
+    return showDialog(
+    context: context, builder: (context) {
+    return AlertDialog(
+    content: Text("Fields Empty\nPlease Fill in the Details"));
+    });
 
     }
     else if (emailController.text == "")
     {
-      return showDialog(
-      context: context, builder: (context) {
-      return AlertDialog(
-      content: Text("Empty Field : Enter Cause of Death"));
-      });
+    return showDialog(
+    context: context, builder: (context) {
+    return AlertDialog(
+    content: Text("Empty Field : Enter Cause of Death"));
+    });
     }
 
     else if (passwordController.text == "")
     {
-      return showDialog(
-      context: context, builder: (context) {
-      return AlertDialog(
-      content: Text("Field Emtpy : Enter Time Of Death"));
-      });
+    return showDialog(
+    context: context, builder: (context) {
+    return AlertDialog(
+    content: Text("Field Emtpy : Enter Time Of Death"));
+    });
     }
-    Navigator.push(context, MaterialPageRoute(builder: (context) => new DonorPage(id)),);},
+
+    int result1;
+    var db = new Mysql();
+    db.getConnection().then((conn) async
+    {
+    String sql = "Update Organ_Donor Set Status = \"Dead\", Active = \"0\" Where DON_id = \""+id+"\" ;";
+
+    await Future.delayed(Duration(seconds: 1), () {
+    conn.query(sql).then((results) {
+    //print('@');
+    print(results);
+    result1 = results.length;
+    print(result1);
+    conn.close();
+    if (result1 == 0) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => new DonorPage(id,false)),);
+    print("Next Page Comes Here");
+    }
+    });
+    });
+    });
+    },
     icon: Icon(Icons.add_alert),label: Text("Report"),color: Colors.teal,splashColor: Colors.blue,),
             ],)
           ],
