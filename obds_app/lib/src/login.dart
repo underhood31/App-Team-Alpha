@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:obdsapp/src/Donor.dart';
 import 'package:obdsapp/src/Organizations.dart';
 import 'package:obdsapp/src/Patient.dart';
 import 'package:obdsapp/src/bloodbank.dart';
 import 'package:obdsapp/src/doctor.dart';
-import 'package:obdsapp/src/newDonor.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'mysql1.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
 
   AnimationController iconController;
   Animation<double> iconAnimation;
+  ProgressDialog pr;  
   final logo = Hero(
     tag: 'hero',
     child: CircleAvatar(
@@ -117,14 +120,31 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                   });
                                 }
                               int result1;
+                              pr = new ProgressDialog(context);
+                                pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false, showLogs: false);
+                                pr.style(
+                                  message: 'Please Wait...',
+                                  borderRadius: 7.0,
+                                  backgroundColor: Colors.white,
+                                  progressWidget: CircularProgressIndicator(),
+                                  elevation: 10.0,
+                                  insetAnimCurve: Curves.decelerate,
+                                  progress: 0.0,
+                                  maxProgress: 100.0,
+                                  progressTextStyle: TextStyle(
+                                    color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+                                  messageTextStyle: TextStyle(
+                                    color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
+                                  );
+                                pr.show();
                               var db = new Mysql();
                               db.getConnection().then((conn) async
                               {
+                                
                                 String sql = "Select * from Account where id = \'" +
                                     emailController.text +
                                     "\' and password = \'" +
                                     passwordController.text + "\';";
-
                                 await Future.delayed(Duration(seconds: 1), () {
                                   conn.query(sql).then((results) {
                                     //print('@');
@@ -133,13 +153,15 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                     print(result1);
                                     conn.close();
                                     if (result1 == 0) {
+                                      pr.hide();
                                       return showDialog(
                                           context: context, builder: (context) {
                                         return AlertDialog(
-                                            content: Text("Unregister Credentials"));
+                                            content: Text("Unregistered Credentials"));
                                       });
                                     }
                                     else if (result1 == 1) {
+                                      pr.hide();
                                       String category = results.elementAt(0).values[2];
                                       if(category.toLowerCase()=="doctor"){
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => Doctor()));
@@ -152,6 +174,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                       }
                                       else if(category.toLowerCase()=="organisation" || category.toLowerCase()=="organization"){
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => Organization(results.elementAt(0).values[0])));
+                                      }
+                                      else if(category.toLowerCase()=="donor"){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DonorPage(results.elementAt(0).values[0])));
                                       }
                                     }
                                   });
@@ -170,6 +195,22 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                 label: Text("Register"),
                 color: Colors.teal,
                 splashColor: Colors.blue,),
+                RaisedButton.icon(
+                  icon: Icon(Icons.swap_horizontal_circle),
+                  label: Text("Change DB (for debuging purpose only)"),
+                  onPressed: (){
+                    print("tapped");
+                    Fluttertoast.showToast(
+                      msg: "Hello world",
+                      textColor: Colors.white,
+                      toastLength: Toast.LENGTH_SHORT,
+                      // timeInSecForIos: 1,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.indigo,
+                    );
+                  },
+                  
+                )
             ],)
           ],
         )

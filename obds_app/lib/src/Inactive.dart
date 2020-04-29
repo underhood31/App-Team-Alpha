@@ -107,7 +107,7 @@ class InactiveState extends State<Inactive>
   {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Insert Donor"),
+        title: Text("Inactive Donors"),
       ),
       body: Center(child: pageContent,),
     );
