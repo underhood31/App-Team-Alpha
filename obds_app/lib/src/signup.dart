@@ -623,6 +623,10 @@ class _SignupPageState extends State<SignupPage> {
                                     BloodDonorCheckBox=false;
                                     _selectedBloodGroup=null;
                                     _selectedOrgan=null;
+                                    alertTitle="Sign-up Successful";
+                                    alertContent="Nearby Organization will contact you soon.";
+                                    createAlertDialog(context);
+                                    alertTitle="Error";
                                   } 
                               }
                             });
