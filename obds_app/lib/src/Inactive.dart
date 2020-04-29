@@ -24,7 +24,7 @@ class InactiveState extends State<Inactive>
     print("Try");
     var conn=await MySqlConnection.connect(sql_cred);
     print("Got it");
-    //try
+    try
     {
       await conn.query('Update Organ_Donor set Active=false where ORG_id="$id" and (Last_check_up_date is NULL OR datediff(curdate(),Last_check_up_date)>60)');
       var data=await conn.query('Select * from Organ_Donor where ORG_id="$id" and active=false');
@@ -84,11 +84,11 @@ class InactiveState extends State<Inactive>
       children: OrganCards,
     );}
     }
-    /*catch(e)
+    catch(e)
     {
      print("Exception");
      afterLoad=Text("Connection Interuppted",style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),);
-    }*/
+    }
     await conn.close();
     setState(() {
       pageContent=afterLoad;
