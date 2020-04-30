@@ -29,6 +29,8 @@ class PrintDetailsState extends State<PrintDetails>{
       // data = await conn.query("select P.PAT_id, Matched_id, Weight, Last_check_up_date, Doc_id, Age, Blood_Group from ${this.table} as C INNER JOIN Patient as P ON C.PAT_id=P.PAT_id where C.ORGAN_id='${this.org_id}';");
       data = await conn.query("select * from ${this.table} as C INNER JOIN Patient as P ON C.PAT_id=P.PAT_id where C.ORGAN_id='${this.org_id}';");
       await conn.close();
+        print(data);
+
     } catch(e){
       print("Exception thrown $e");
     }
@@ -38,6 +40,7 @@ class PrintDetailsState extends State<PrintDetails>{
         // data = await conn.query("select D.DON_id, Matched_id, Weight, Last_check_up_date,Age, Blood_Group from ${this.table} as C INNER JOIN Organ_Donor as D ON C.DON_id=D.DON_id where C.ORGAN_id='${this.org_id}';");
         data = await conn.query("select * from ${this.table} as C INNER JOIN Organ_Donor as D ON C.DON_id=D.DON_id where C.ORGAN_id='${this.org_id}';");
         await conn.close();
+        print(data);
       } catch(e){
         print("Exception thrown $e");
       }
@@ -57,12 +60,18 @@ class PrintDetailsState extends State<PrintDetails>{
       // print(relevantFields);
 
       List<Widget> OrganCards = new List<Widget>();
-      int num=0;
+      int ch=0;
       for (var i in data){
-        num+=1;
         String dd="";
         for(int k=1; k<allFields.length; ++k){
-          dd+="${allFields[k]}: ${i[k]}\n";
+          if(allFields[k]=="Name"){
+            k+=1;
+            ch=1;
+          }
+          if(ch==0)
+            dd+="${allFields[k]}: ${i[k]}\n";
+          else
+            dd+="${allFields[k-1]}: ${i[k]}\n";
         }
         Widget temp = Card(
           child: ListTile(

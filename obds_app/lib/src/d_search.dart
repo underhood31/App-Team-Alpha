@@ -337,42 +337,9 @@ class SearchOrganState extends State<SearchOrgans>{
                               child: Column(
                                 children: <Widget>[
                                 SizedBox(height: 50.0),
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: "Enter minimum Age of Donor in Years"
-                                  ),
-                                   textAlign: TextAlign.center,
-                                   onChanged: (String value){
-                                    minAge=value;
-                                   },
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value.isEmpty || !isInt(value) ){
-                                      return 'Invalid entry, only numbers allowed';
-                                    }
-                                    return null;
-                                  },
-                                  
-                                ),
-                                 SizedBox(height: 24.0),
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: "Enter maximum Age of Donor in Years"
-                                  ),
-                                   textAlign: TextAlign.center,
-                                   onChanged: (String value){
-                                    maxAge=value;
-                                   },
-                                  // The validator receives the text that the user has entered.
-                                  validator: (value) {
-                                    if (value.isEmpty || !isFloat(value) ){
-                                      return 'Invalid entry, only numbers allowed';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(height: 24.0),
                                 
+                                 SizedBox(height: 24.0),
+                               
                                 TextFormField(
                                   decoration: InputDecoration(
                                     labelText: "Enter minimum Size of Lungs"
@@ -431,7 +398,7 @@ class SearchOrganState extends State<SearchOrgans>{
                                     if (_formKey.currentState.validate()) {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(builder: (context) => AllOrgan("select * from Lung where Age between $minAge and $maxAge and Size between $minSize and $maxSize and Smoking_History < $maxSmoke and DON_id is not null;",true)),
+                                        MaterialPageRoute(builder: (context) => AllOrgan("select * from Lung where Size between $minSize and $maxSize and Smoking_History < $maxSmoke and DON_id is not null;",true)),
                                       );
                                     }
                                   },
