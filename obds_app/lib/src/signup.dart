@@ -49,7 +49,27 @@ class _SignupPageState extends State<SignupPage> {
 
   String alertTitle="Error",alertContent="";
   List<DropdownMenuItem<Organ>> items=new List<DropdownMenuItem<Organ>>();
+ 
+  createSuccessDialog(BuildContext context)
+  {
+    print(alertTitle);
+    return showDialog(context: context ,builder:(context){
+    return AlertDialog(
+      title: Text("Sign-up Successful",     style: TextStyle(fontFamily: 'Montserrat'),),
+      content: Text("Concerned authorities will contact you soon",     style: TextStyle(fontFamily: 'Montserrat'),),
+      actions: <Widget>[MaterialButton (
+                                        color: Colors.green,
+                                        elevation:15,
+                                        child :Text("Go Back",style: TextStyle(fontFamily: 'Montserrat')),  
+                                        onPressed: (){
+                                          Navigator.of(context).pop();
+                                          })],
+    );
 
+    });
+
+  }
+ 
   createAlertDialog(BuildContext context)
   {
     print(alertTitle);
@@ -612,8 +632,8 @@ class _SignupPageState extends State<SignupPage> {
                                     {
                                       insertBloodDonor();
                                     }
-                                    // print(_selectedBloodGroup.group);
-                                    // print(_selectedOrgan.group);
+                                    print(_selectedBloodGroup.group);
+                                    print(_selectedOrgan.group);
                                     NameController.text="";
                                     AgeController.text="";
                                     AddressController.text="";
@@ -623,10 +643,7 @@ class _SignupPageState extends State<SignupPage> {
                                     BloodDonorCheckBox=false;
                                     _selectedBloodGroup=null;
                                     _selectedOrgan=null;
-                                    alertTitle="Sign-up Successful";
-                                    alertContent="Nearby Organization will contact you soon.";
-                                    createAlertDialog(context);
-                                    alertTitle="Error";
+                                    createSuccessDialog(context);
                                   } 
                               }
                             });
