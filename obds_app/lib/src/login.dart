@@ -5,6 +5,7 @@ import 'package:obdsapp/main.dart';
 import 'package:obdsapp/src/Donor.dart';
 import 'package:obdsapp/src/Organizations.dart';
 import 'package:obdsapp/src/Patient.dart';
+import 'package:obdsapp/src/bloodDonor.dart';
 import 'package:obdsapp/src/bloodbank.dart';
 import 'package:obdsapp/src/doctor.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -179,6 +180,9 @@ class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMix
                                       }
                                       else if(category.toLowerCase()=="donor"){
                                         Navigator.push(context, MaterialPageRoute(builder: (context) => DonorPage(results.elementAt(0).values[0],true)));
+                                      }
+                                      else if(category.toLowerCase()=="blooddonor"){
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => bloodDonorPage(results.elementAt(0).values[0] )));
                                       }
                                     }
                                   });

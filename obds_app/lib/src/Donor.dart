@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'mysql1.dart';
 import 'reportDeath.dart';
 import 'dorgs.dart';
+import 'myOrg.dart';
 
 
 class DonorPage extends StatefulWidget {
@@ -29,16 +30,19 @@ class _DonorPageState extends State<DonorPage>  {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-      appBar: AppBar(backgroundColor: Colors.green, title: Text("Logged in as Organ Donor"),
-      actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app), onPressed:null ,),],),
+      appBar: AppBar(leading: Text(""),backgroundColor: Colors.green, title: Text("Logged in as Organ Donor"),
+      actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app), onPressed:(){Navigator.pushReplacementNamed(context, "/logout");} ,),],),
 
       body: new Stack(fit: StackFit.expand, children: <Widget>[
-        new Image(image: AssetImage('Assets/jc-gellidon-Ks5m44_nmVs-unsplash.jpg'),fit: BoxFit.fitWidth, color: Colors.black87,
-        colorBlendMode: BlendMode.luminosity),
+        
         ListView(children: <Widget>[new Padding(padding: EdgeInsets.all(5)),
           Card(color: Colors.white, child: ListTile(leading: Icon(Icons.apps, size : 48),title: Text("Find Organisations"),subtitle: Text("List of organisations that accept your organ"), onTap: () =>
           {
             Navigator.push(context, MaterialPageRoute(builder: (context) => new ContactOG(id)),)
+          }, isThreeLine: true,),),
+          Card(color: Colors.white, child: ListTile(leading: Icon(Icons.apps, size : 48),title: Text("My Organisations"),subtitle: Text("My registered organisation"), onTap: () =>
+          {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => new ContactMOG(id)),)
           }, isThreeLine: true,),),
           if (stat == true)
             Card(color: Colors.white, child: ListTile(leading: Icon(Icons.add_alert, size : 48),title: Text("Report Pick Up"),subtitle: Text("Report death of donor and organ pickup"), onTap: () =>

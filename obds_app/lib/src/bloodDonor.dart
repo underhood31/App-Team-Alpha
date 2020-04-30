@@ -26,12 +26,11 @@ class _bloodDonorPageState extends State<bloodDonorPage>  {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(backgroundColor: Colors.green, title: Text("Logged in as Blood Donor"),
-          actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app), onPressed:null ,),],),
+        appBar: AppBar(leading: Text(""),backgroundColor: Colors.green, title: Text("Logged in as Blood Donor"),
+          actions: <Widget>[IconButton(icon: Icon(Icons.exit_to_app), onPressed:(){Navigator.pushReplacementNamed(context, "/logout");} ,),],),
 
         body: new Stack(fit: StackFit.expand, children: <Widget>[
-          new Image(image: AssetImage('Assets/jc-gellidon-9Eb-bpTXglM-unsplash.jpg'),fit: BoxFit.fitWidth, color: Colors.black87,
-              colorBlendMode: BlendMode.luminosity),
+         
           ListView(children: <Widget>[new Padding(padding: EdgeInsets.all(5)),Card(color: Colors.white ,child : ListTile(leading: Icon(Icons.opacity, size : 48),title: Text("My Organisation"),subtitle: Text("My registered organisation"), onTap: ()
           {Navigator.push(
             context, MaterialPageRoute(builder: (context) => new ContactMBG(id)),);}, isThreeLine: true,)),
